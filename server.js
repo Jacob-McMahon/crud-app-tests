@@ -2,17 +2,20 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const { MongoClient } = require('mongodb')
-const mongoDB = require('mongodb').MongoClient
-//making a variable for a database
+const MongoClient = require('mongodb').MongoClient
+//making a variable for our database connection string
 const connectionString = 'mongodb+srv://admin:keyless@clusterfuck.xpjoyol.mongodb.net/?retryWrites=true&w=majority'
 
-MongoClient.connect(connectionString, (err, client) => {
-    if(err) return console.error(err)
-    console.log('Connection secured!')
-})
+//connecting to the server with a promise as callback functions are deprecated.
+//the variable db is for naming our database..the log is just for confirmation
+//the variable qCol is for creating our collection within the database
+MongoClient.connect(connectionString).then(
+    client => {
+      console.log('Database Connected!')
+      const db = client.db('quotables')
+      const quotesCollection = db.collections('quotes')
 
-//since body-parser is a middleware we need to use the 'use' method to
+      //since body-parser is a middleware we need to use the 'use' method to
 //to be able to use it. urlencoded method tells BP to extrct data from the form
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -30,6 +33,13 @@ app.get('/', (req, res) => {
 //post retreives the data from the form and then does something with depending
 //on what it is you want to do with it, hear we are simply logging it
 app.post('/quotes', (req, res) => { 
-    console.log(req.body)
+    quotesCollection.insertOne(req.body)
+    .then(result => {
+        console.log(result)
+    })
+    .catch(console.error)
 })
+    })
+    
+  
 
