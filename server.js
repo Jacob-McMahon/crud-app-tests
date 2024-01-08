@@ -20,6 +20,12 @@ MongoClient.connect(connectionString).then(
 //settting the view engine to use ejs for our html
 app.set('view engine', 'ejs')
 
+//using a middleware called static to make the public file accessible to all
+app.use(express.static('public'))
+
+//adding body parser's middleware to read JSON 
+app.use(bodyParser.json())
+
       //since body-parser is a middleware we need to use the 'use' method to
 //to be able to use it. urlencoded method tells BP to extrct data from the form
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -52,7 +58,15 @@ app.post('/quotes', (req, res) => {
     })
     .catch(console.error)
     })
+
+app.put('/quotes', (req, res) => {
+    console.log(req.body)
 })
-.catch(console.error)
+
+
+
+
+})
+
   
 
