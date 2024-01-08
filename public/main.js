@@ -1,5 +1,6 @@
 const update = document.querySelector('#invasion')
 const deleteB = document.querySelector('#fightBack')
+const messyDiv = document.querySelector('#message')
 
 
 //adding an event listener on to the button id'd as invasion in order to
@@ -24,7 +25,7 @@ update.addEventListener('click', () => {
     })
 })
 
-deleteB.addEventListener('click', () => {
+/*deleteB.addEventListener('click', () => {
     fetch('/quotes', {
         method: 'delete',
         headers: {'Content-Type': 'application.json'},
@@ -34,9 +35,31 @@ deleteB.addEventListener('click', () => {
         })
     .then(res => {
         if(res.ok) return res.json()
+        
     })
 .then(response => {
-    window.location.reload()
+    //window.location.reload()
 })
 
+})*/
+deleteB.addEventListener('click', _ => {
+    fetch('/quotes', {
+        method: 'delete',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            name: 'Darth Vader'
+        })
+    })
+    .then(res => {
+        if(res.ok) return res.json()
+    })
+    .then(response => {
+        if(response === 'No quote to delete'){
+            messyDiv.textContent = 'No Darth Vader quote to delete'
+        }
+          window.location.reload(true)
+        }
+    )
 })
+
+
