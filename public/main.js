@@ -1,4 +1,5 @@
 const update = document.querySelector('#invasion')
+const deleteB = document.querySelector('#fightBack')
 
 
 //adding an event listener on to the button id'd as invasion in order to
@@ -23,3 +24,19 @@ update.addEventListener('click', () => {
     })
 })
 
+deleteB.addEventListener('click', () => {
+    fetch('/quotes', {
+        method: 'delete',
+        headers: {'Content-Type': 'application.json'},
+        body: JSON.stringify({
+                name: 'Darth Vader'
+            })
+        })
+    .then(res => {
+        if(res.ok) return res.json()
+    })
+.then(response => {
+    window.location.reload()
+})
+
+})

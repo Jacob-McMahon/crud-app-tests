@@ -77,9 +77,16 @@ app.put('/quotes', (req, res) => {
         })
         .catch(error => console.error(error))
 
+app.delete("/quotes", (req, res) => {
+    quotesCollection
+        .deleteOne({name: req.body.name})
+        .then(result => {
+            res.json(`Deleted a quote from Darth Vader`)
+        })
+        .catch(error => console.error(error))
+})
 
-
-    console.log(req.body)
+    //console.log(req.body)
 })
 
 
