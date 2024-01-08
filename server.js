@@ -13,7 +13,12 @@ MongoClient.connect(connectionString).then(
     client => {
       console.log('Database Connected!')
       const db = client.db('quotables')
-      const quotesCollection = db.collections('quotes')
+      const quotesCollection = db.collection('quotes')
+
+
+
+//settting the view engine to use ejs for our html
+app.set('view engine', 'ejs')
 
       //since body-parser is a middleware we need to use the 'use' method to
 //to be able to use it. urlencoded method tells BP to extrct data from the form
@@ -27,19 +32,27 @@ console.log('listening on 8000')
 //lets the server know what to do with the browsers request
 //Here we are loading the file index.html as a response
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
+    db.collection('quotes')
+    .find()
+    .toArray()
+    .then(results => {
+        res.render('index.ejs', {quotes: results})
+    }).catch(error => console.error(error))
+
+    
 })
 
 //post retreives the data from the form and then does something with depending
 //on what it is you want to do with it, hear we are simply logging it
 app.post('/quotes', (req, res) => { 
-    quotesCollection.insertOne(req.body)
+    quotesCollection
+    .insertOne(req.body)
     .then(result => {
-        console.log(result)
+        res.redirect('/')
     })
     .catch(console.error)
-})
     })
-    
+})
+.catch(console.error)
   
 
