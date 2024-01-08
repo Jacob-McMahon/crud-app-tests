@@ -60,6 +60,25 @@ app.post('/quotes', (req, res) => {
     })
 
 app.put('/quotes', (req, res) => {
+    quotesCollection
+        .findOneAndUpdate(
+            {name: 'Yoda'}, 
+            {
+            $set: {
+                name: req.body.name,
+                quote: req.body.quote,
+            }, 
+            },
+            {
+                upsert: true,
+            })
+        .then(result => {
+            res.json('success')
+        })
+        .catch(error => console.error(error))
+
+
+
     console.log(req.body)
 })
 
