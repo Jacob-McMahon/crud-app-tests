@@ -8,7 +8,7 @@ const messyDiv = document.querySelector('#message')
 //here we are sending a name and a quote to update a different name and quote in
 // the database
 update.addEventListener('click', () => {
-    fetch('/quotes', {
+    fetch('quotes', {
         method: 'put',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -43,7 +43,7 @@ update.addEventListener('click', () => {
 
 })*/
 deleteB.addEventListener('click', _ => {
-    fetch('/quotes', {
+    fetch('quotes', {
         method: 'delete',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
