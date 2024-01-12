@@ -54,7 +54,7 @@ app.post('/quotes', (req, res) => {
     quotesCollection
     .insertOne(req.body)
     .then(result => {
-        res.redirect('/')
+        result.redirect('/')
     })
     .catch(console.error)
     })
